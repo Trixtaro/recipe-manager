@@ -33,12 +33,7 @@ const NewIngredient: FC = () => {
             className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
           >
             <option value="">Selecciona una unidad...</option>
-            <option value="units">Unidades</option>
-            <option value="gram">Gramos - Peso</option>
-            <option value="ounce">Onzas - Peso</option>
-            <option value="liter">Litro - Volumen</option>
-            <option value="pund">Libra - Peso</option>
-            <option value="mililiter">Mililitro - Volumen</option>
+            {functions.showUnitsOptions()}
           </select>
         </div>
         <div className="my-2">

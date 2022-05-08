@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
+import { Units } from "../../../infrastructure/units/Units";
 
 export const useNewIngredient = () => {
   const navigate = useNavigate();
@@ -64,6 +65,14 @@ export const useNewIngredient = () => {
     return true;
   };
 
+  const showUnitsOptions = () => {
+    return Units.map((unit) => (
+      <option key={unit.name} value={unit.name}>
+        {unit.spanish.listName}
+      </option>
+    ));
+  };
+
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
@@ -83,6 +92,7 @@ export const useNewIngredient = () => {
     functions: {
       onChange,
       onSubmit,
+      showUnitsOptions,
     },
   };
 };
