@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "tw": "npx tailwindcss -i ./src/input.css -o ./public/output.css",
+    "tw:watch": "npx tailwindcss -i ./src/input.css -o ./public/output.css --watch",
     "build": "npm run tw && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
