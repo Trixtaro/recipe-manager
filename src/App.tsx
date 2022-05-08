@@ -1,12 +1,15 @@
-import { BrowserRouter, Route } from "react-router-dom";
-import DefaultPage from "./container/Default/Default";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Default from "./container/Default/Default";
+import Home from "./container/Home/Home";
 
 function App() {
   return (
     <BrowserRouter>
-      <Route path="/">
-        <DefaultPage />
-      </Route>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/default" element={<Default />} />
+        <Route path="*" element={<div>404 NOT FOUND</div>} />
+      </Routes>
     </BrowserRouter>
   );
 }
