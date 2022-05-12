@@ -16,8 +16,8 @@ const IngredientElement: FC<IIngredientElement> = ({
   unit,
   onClickChangeAmount,
 }) => (
-  <div className="flex flex-row justify-between items-center">
-    <div className="w-1/3 text-black mr-1 mb-1 py-1 px-2 font-semibold">
+  <div className="flex flex-row justify-between items-center text-sm">
+    <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold">
       {name}
     </div>
     <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold flex justify-center">
@@ -27,7 +27,7 @@ const IngredientElement: FC<IIngredientElement> = ({
       >
         -
       </button>
-      <span className="w-10 text-center text-sm">{quantity}</span>
+      <span className="w-10 text-center">{quantity}</span>
       <button
         onClick={() => onClickChangeAmount(id, 1)}
         className="w-6 h-6 text-white font-bold text-center bg-gray-400 active:bg-gray-300 transition-colors duration-200 rounded-xl"
@@ -35,10 +35,10 @@ const IngredientElement: FC<IIngredientElement> = ({
         +
       </button>
     </div>
-    <div className="w-1/3 text-black mr-1 mb-1 py-1 px-2 font-semibold text-center">
+    <div className="w-1/6 text-black mr-1 mb-1 py-1 px-2 font-semibold text-center">
       {unit}
     </div>
-    <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold">
+    <div className="w-1/6 text-black mr-1 mb-1 py-1 px-2 font-semibold">
       <ThreeDots />
     </div>
   </div>
