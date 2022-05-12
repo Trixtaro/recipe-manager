@@ -8,6 +8,7 @@ export const useNewIngredient = () => {
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("0");
+  const [price, setPrice] = useState<string>("1");
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (
     e
@@ -23,6 +24,9 @@ export const useNewIngredient = () => {
         break;
       case "quantity":
         setQuantity(value);
+        break;
+      case "price":
+        setPrice(value);
         break;
       default:
     }
@@ -57,6 +61,7 @@ export const useNewIngredient = () => {
       name,
       quantity: parseInt(quantity),
       unit,
+      price: parseInt(price),
     };
 
     ingredients.push(newIngredient);
@@ -79,13 +84,14 @@ export const useNewIngredient = () => {
     if (verifyValues() === false) return;
 
     if (saveNewIngredient()) {
-      navigate("/");
+      navigate("/ingredients");
     }
   };
 
   return {
     values: {
       name,
+      price,
       quantity,
       unit,
     },

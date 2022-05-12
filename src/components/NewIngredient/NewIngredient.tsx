@@ -6,7 +6,9 @@ const NewIngredient: FC = () => {
 
   return (
     <form onSubmit={functions.onSubmit} className="flex flex-col">
-      <h2 className="font-bold mb-2 text-xl">Nuevo ingrediente</h2>
+      <h2 className="font-bold mb-2 text-xl">
+        Registrar datos de nuevo ingrediente
+      </h2>
       <fieldset className="flex flex-col">
         <div className="my-2">
           <label htmlFor="name" className="">
@@ -47,6 +49,21 @@ const NewIngredient: FC = () => {
             value={values.quantity}
             onChange={functions.onChange}
             min="0"
+            className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
+          />
+        </div>
+        <div className="my-2">
+          <label htmlFor="price" className="">
+            Precio
+          </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            value={values.price}
+            onChange={functions.onChange}
+            min="0.05"
+            step="0.05"
             className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
           />
         </div>

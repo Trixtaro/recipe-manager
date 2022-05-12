@@ -54,6 +54,7 @@ export const useIngredientsList = () => {
         name={ingredient.name}
         quantity={ingredient.quantity}
         unit={listOfUnits[ingredient.unit]}
+        price={ingredient.price}
         onClickChangeAmount={updateIngredientAmount}
       />
     ));

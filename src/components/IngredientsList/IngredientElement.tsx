@@ -6,6 +6,7 @@ interface IIngredientElement {
   name: string;
   quantity: number;
   unit: string;
+  price: number;
   onClickChangeAmount: (id: number, value: number) => void;
 }
 
@@ -14,11 +15,12 @@ const IngredientElement: FC<IIngredientElement> = ({
   name,
   quantity,
   unit,
+  price,
   onClickChangeAmount,
 }) => (
   <div className="flex flex-row justify-between items-center text-sm">
     <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold">
-      {name}
+      {name} {`(\$ ${price.toFixed(2)})`}
     </div>
     <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold flex justify-center">
       <button
