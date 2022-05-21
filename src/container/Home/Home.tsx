@@ -4,8 +4,8 @@ const Home = () => {
   return (
     <div className="flex flex-col">
       <Link to="/ingredients">Ingredientes</Link>
-      <Link to="/">Actualizar inventario</Link>
-      <Link to="/">Agregar receta</Link>
+      <Link to="/recipes">Recetas</Link>
+      <Link to="/recipes">Actualizar inventario</Link>
     </div>
   );
 };

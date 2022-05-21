@@ -4,6 +4,8 @@ import Default from "./container/Default/Default";
 import Home from "./container/Home/Home";
 import Ingredients from "./container/Ingredients/Ingredients";
 import NewIngredientContainer from "./container/NewIngredientContainer/NewIngredientContainer";
+import NewRecipeContainer from "./container/NewRecipeContainer/NewRecipeContainer";
+import Recipes from "./container/Recipes/Recipes";
 
 function App() {
   useEffect(() => {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/ingredients" element={<Ingredients />} />
         <Route path="/ingredients/new" element={<NewIngredientContainer />} />
+        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/recipes/new" element={<NewRecipeContainer />} />
         <Route path="/default" element={<Default />} />
         <Route path="*" element={<div>404 NOT FOUND</div>} />
       </Routes>
