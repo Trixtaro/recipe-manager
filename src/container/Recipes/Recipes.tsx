@@ -2,6 +2,7 @@ import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import RecipesList from "../../components/RecipesList/RecipesList";
 
 const Recipes: FC = () => {
   return (
@@ -21,6 +22,7 @@ const Recipes: FC = () => {
           </div>
         </Link>
       </div>
+      <RecipesList />
     </div>
   );
 };

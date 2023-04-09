@@ -31,12 +31,12 @@ export const Units: IUnit[] = [
     name: "onze",
     measure: MeasuresEnum.Weight,
     english: {
-      name: "onze",
+      name: "onzes",
       listName: "Onzes - Weight",
     },
     spanish: {
       listName: "Onzas - Peso",
-      name: "onza",
+      name: "onzas",
     },
   },
   {
@@ -44,11 +44,11 @@ export const Units: IUnit[] = [
     measure: MeasuresEnum.Weight,
     english: {
       listName: "Pounds - Weight",
-      name: "pound",
+      name: "pounds",
     },
     spanish: {
       listName: "Libras - Peso",
-      name: "libra",
+      name: "libras",
     },
   },
   {
@@ -56,11 +56,11 @@ export const Units: IUnit[] = [
     measure: MeasuresEnum.Volume,
     english: {
       listName: "Liters - Volume",
-      name: "liter",
+      name: "liters",
     },
     spanish: {
       listName: "Litros - Volumen",
-      name: "litro",
+      name: "litros",
     },
   },
   {
@@ -68,11 +68,11 @@ export const Units: IUnit[] = [
     measure: MeasuresEnum.Volume,
     english: {
       listName: "Milliliters - Volume",
-      name: "milliliter",
+      name: "mm.",
     },
     spanish: {
       listName: "Mililitros - Volumen",
-      name: "mililitro",
+      name: "mm.",
     },
   },
 ];

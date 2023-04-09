@@ -1,11 +1,46 @@
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
+import { getRecipeCost } from "../../../infrastructure/calculator/RecipeCalculator";
+import { LanguagesEnum } from "../../../infrastructure/enums/LanguagesEnum";
+import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
 import { IRecipe } from "../../../infrastructure/interfaces/Recipe.interface";
-import { Units } from "../../../infrastructure/units/Units";
+import { IRecipeIngredient } from "../../../infrastructure/interfaces/RecipeIngredient.interface";
+import {
+  listUnitsByLanguage,
+  Units,
+} from "../../../infrastructure/units/Units";
 
 export const useNewRecipe = () => {
   const navigate = useNavigate();
+  const unitsByLanguage = listUnitsByLanguage(LanguagesEnum.spanish);
+
   const [name, setName] = useState<string>("");
+  const [ingredient, setIngredient] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
+  const [ingredientsSelected, setIngredientsSelected] = useState<
+    IRecipeIngredient[]
+  >([]);
+  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const [estimatedValue, setEstimatedValue] = useState(0);
+
+  useEffect(() => {
+    loadIngredients();
+  }, []);
+
+  useEffect(() => {
+    setEstimatedValue(
+      getRecipeCost({ id: 1, name, ingredients: ingredientsSelected })
+    );
+  }, [ingredientsSelected]);
+
+  const loadIngredients = () => {
+    setIngredients(JSON.parse(localStorage.getItem("ingredients") || "[]"));
+  };
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (
     e
@@ -15,6 +50,12 @@ export const useNewRecipe = () => {
     switch (name) {
       case "name":
         setName(value);
+        break;
+      case "ingredient":
+        setIngredient(value);
+        break;
+      case "amount":
+        setAmount(parseFloat(value ?? 0));
         break;
       default:
     }
@@ -29,6 +70,42 @@ export const useNewRecipe = () => {
     return true;
   };
 
+  const addNewIngredientToRecipe = () => {
+    const selectedIngredient = ingredients.find(
+      (ing) => ing.name === ingredient
+    );
+
+    if (!selectedIngredient) {
+      alert("El ingrediente seleccionado no existe.");
+      return;
+    }
+
+    if (amount <= 0) {
+      alert("La cantidad del ingrediente debe ser mayor a 0.");
+      return;
+    }
+
+    setIngredientsSelected([
+      ...ingredientsSelected,
+      {
+        amount,
+        ingredient: selectedIngredient,
+      },
+    ]);
+
+    setIngredient("");
+    setAmount(0);
+  };
+
+  const removeIngredientFromRecipe = (ingredient: IRecipeIngredient) => {
+    const index = ingredientsSelected.indexOf(ingredient);
+
+    const newIngredientsSelected = [...ingredientsSelected];
+    newIngredientsSelected.splice(index, 1);
+
+    setIngredientsSelected(newIngredientsSelected);
+  };
+
   const saveNewRecipe = (): boolean => {
     const recipes: IRecipe[] =
       JSON.parse(localStorage.getItem("recipes") as string) || [];
@@ -38,9 +115,15 @@ export const useNewRecipe = () => {
       return false;
     }
 
+    if (ingredientsSelected.length === 0) {
+      alert(`Debe ingresar al menos un ingrediente a la receta."`);
+      return false;
+    }
+
     let newRecipe: IRecipe = {
       id: new Date().getTime(),
       name,
+      ingredients: ingredientsSelected,
     };
 
     recipes.push(newRecipe);
@@ -49,11 +132,25 @@ export const useNewRecipe = () => {
     return true;
   };
 
-  const showUnitsOptions = () => {
-    return Units.map((unit) => (
-      <option key={unit.name} value={unit.name}>
-        {unit.spanish.listName}
-      </option>
+  const showIngredientsSelected = () => {
+    return ingredientsSelected.map((ingSelected) => (
+      <div
+        key={ingSelected.ingredient.id}
+        className="flex flex-row justify-evenly text-white my-2"
+      >
+        <h3 className="p-1 w-3/6 bg-green-500">
+          {ingSelected.ingredient.name}
+        </h3>
+        <h4 className="p-1 w-2/6 bg-green-600 text-sm text-center">
+          {ingSelected.amount} {unitsByLanguage[ingSelected.ingredient.unit]}
+        </h4>
+        <div
+          className="p-1 w-10 bg-red-500 rounded-md text-center"
+          onClick={() => removeIngredientFromRecipe(ingSelected)}
+        >
+          x
+        </div>
+      </div>
     ));
   };
 
@@ -70,11 +167,17 @@ export const useNewRecipe = () => {
   return {
     values: {
       name,
+      ingredient,
+      amount,
+      ingredients,
+      estimatedValue,
     },
     functions: {
+      addNewIngredientToRecipe,
       onChange,
       onSubmit,
-      showUnitsOptions,
+      setIngredient,
+      showIngredientsSelected,
     },
   };
 };

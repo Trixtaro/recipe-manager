@@ -59,9 +59,9 @@ export const useNewIngredient = () => {
     let newIngredient: IIngredient = {
       id: new Date().getTime(),
       name,
-      quantity: parseInt(quantity),
+      quantity: parseFloat(quantity),
       unit,
-      price: parseInt(price),
+      price: parseFloat(price),
     };
 
     ingredients.push(newIngredient);
