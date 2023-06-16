@@ -10,13 +10,16 @@ import { LanguagesEnum } from "../../../infrastructure/enums/LanguagesEnum";
 import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
 import { IRecipe } from "../../../infrastructure/interfaces/Recipe.interface";
 import { IRecipeIngredient } from "../../../infrastructure/interfaces/RecipeIngredient.interface";
+import { listUnitsByLanguage } from "../../../infrastructure/units/Units";
 import {
-  listUnitsByLanguage,
-  Units,
-} from "../../../infrastructure/units/Units";
+  useIngriedientStore,
+  useRecipeStore,
+} from "../../../infrastructure/hooks/useStore";
 
 export const useNewRecipe = () => {
   const navigate = useNavigate();
+  const { loadRecipes, saveRecipe } = useRecipeStore();
+  const { loadIngredients } = useIngriedientStore();
   const unitsByLanguage = listUnitsByLanguage(LanguagesEnum.spanish);
 
   const [name, setName] = useState<string>("");
@@ -29,18 +32,12 @@ export const useNewRecipe = () => {
   const [estimatedValue, setEstimatedValue] = useState(0);
 
   useEffect(() => {
-    loadIngredients();
+    setIngredients(loadIngredients());
   }, []);
 
   useEffect(() => {
-    setEstimatedValue(
-      getRecipeCost({ id: 1, name, ingredients: ingredientsSelected })
-    );
+    setEstimatedValue(getRecipeCost(ingredientsSelected));
   }, [ingredientsSelected]);
-
-  const loadIngredients = () => {
-    setIngredients(JSON.parse(localStorage.getItem("ingredients") || "[]"));
-  };
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (
     e
@@ -107,8 +104,7 @@ export const useNewRecipe = () => {
   };
 
   const saveNewRecipe = (): boolean => {
-    const recipes: IRecipe[] =
-      JSON.parse(localStorage.getItem("recipes") as string) || [];
+    const recipes = loadRecipes();
 
     if (recipes.some((recipe) => recipe.name === name)) {
       alert(`Ya existe una receta guardada con el nombre de "${name}"`);
@@ -126,8 +122,7 @@ export const useNewRecipe = () => {
       ingredients: ingredientsSelected,
     };
 
-    recipes.push(newRecipe);
-    localStorage.setItem("recipes", JSON.stringify(recipes));
+    saveRecipe(newRecipe);
 
     return true;
   };

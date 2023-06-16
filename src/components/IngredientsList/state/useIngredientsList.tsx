@@ -1,41 +1,56 @@
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { LanguagesEnum } from "../../../infrastructure/enums/LanguagesEnum";
 import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
 import { listUnitsByLanguage } from "../../../infrastructure/units/Units";
 import IngredientElement from "../IngredientElement";
+import { useIngriedientStore } from "../../../infrastructure/hooks/useStore";
 
 export const useIngredientsList = () => {
+  const { loadIngredients, updateAmountOfIngredient, updateIngredientPrice } =
+    useIngriedientStore();
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const [selectedIngredient, setSelectedIngredient] =
+    useState<IIngredient | null>(null);
 
-  const loadIngredients = () => {
-    setIngredients(JSON.parse(localStorage.getItem("ingredients") || "[]"));
-  };
+  const [openModal, setOpenModal] = useState(false);
+  const [modalPrice, setModalPrice] = useState(0);
 
-  const storeIngredients = () => {
-    localStorage.setItem("ingredients", JSON.stringify(ingredients));
-    loadIngredients();
-  };
+  const handleUpdateIngredientAmount = (
+    id: number,
+    amount: number,
+    currentQuantity: number
+  ) => {
+    if (currentQuantity + amount < 0) {
+      return;
+    }
 
-  const updateIngredientAmount = (id: number, amount: number) => {
-    let index = 1;
-
-    const currentIngredient = ingredients.find((ing, i) => {
-      index = i;
-      return ing.id === id;
-    });
-
-    if (!currentIngredient) {
+    if (!updateAmountOfIngredient(id, amount)) {
       alert("No se encontro el ingrediente");
       return;
     }
 
-    if (currentIngredient.quantity + amount < 0) {
-      return;
+    setIngredients(loadIngredients());
+  };
+
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case "price":
+        setModalPrice(parseFloat(value));
+        break;
+      default:
     }
+  };
 
-    ingredients[index].quantity += amount;
+  const handleUpdatePrice = () => {
+    updateIngredientPrice(selectedIngredient!.id!, modalPrice);
 
-    storeIngredients();
+    setIngredients(loadIngredients());
+
+    setOpenModal(false);
   };
 
   const showIngredients = () => {
@@ -55,18 +70,34 @@ export const useIngredientsList = () => {
         quantity={ingredient.quantity}
         unit={listOfUnits[ingredient.unit]}
         price={ingredient.price}
-        onClickChangeAmount={updateIngredientAmount}
+        onClickChangeAmount={handleUpdateIngredientAmount}
+        onClickOption={() => {
+          setSelectedIngredient(ingredient);
+          setModalPrice(ingredient.price);
+          setOpenModal(true);
+        }}
       />
     ));
   };
 
   useEffect(() => {
-    loadIngredients();
+    setIngredients(loadIngredients());
   }, []);
 
   return {
     functions: {
       showIngredients,
+      setOpenModal,
+    },
+    values: {
+      openModal,
+      modalPrice,
+      ingredients,
+      selectedIngredient,
+    },
+    handlers: {
+      handleUpdatePrice,
+      handleChange,
     },
   };
 };

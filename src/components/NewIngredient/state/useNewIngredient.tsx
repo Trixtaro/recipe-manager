@@ -2,9 +2,11 @@ import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
 import { Units } from "../../../infrastructure/units/Units";
+import { useIngriedientStore } from "../../../infrastructure/hooks/useStore";
 
 export const useNewIngredient = () => {
   const navigate = useNavigate();
+  const { loadIngredients, saveIngredient } = useIngriedientStore();
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("0");
@@ -47,9 +49,7 @@ export const useNewIngredient = () => {
   };
 
   const saveNewIngredient = (): boolean => {
-    const ingredients: IIngredient[] = JSON.parse(
-      localStorage.getItem("ingredients") as string
-    );
+    const ingredients = loadIngredients();
 
     if (ingredients.some((ingredient) => ingredient.name === name)) {
       alert(`Ya existe guardado con el nombre de "${name}"`);
@@ -64,8 +64,7 @@ export const useNewIngredient = () => {
       price: parseFloat(price),
     };
 
-    ingredients.push(newIngredient);
-    localStorage.setItem("ingredients", JSON.stringify(ingredients));
+    saveIngredient(newIngredient);
 
     return true;
   };

@@ -17,7 +17,7 @@ const Recipes: FC = () => {
       </div>
       <div className="flex flex-row-reverse">
         <Link to="/recipes/new">
-          <div className="p-2 bg-green-500 text-white rounded-md">
+          <div className="p-2 bg-pink-500 text-white rounded-md">
             Nueva receta
           </div>
         </Link>

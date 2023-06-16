@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
 import { IRecipe } from "../../../infrastructure/interfaces/Recipe.interface";
 import RecipeElement from "../RecipeElement";
+import {
+  useIngriedientStore,
+  useRecipeStore,
+} from "../../../infrastructure/hooks/useStore";
+import { IIngredient } from "../../../infrastructure/interfaces/Ingredient.interface";
 
 export const useRecipesList = () => {
+  const { loadRecipes } = useRecipeStore();
+  const { loadIngredients, consumeIngredientsFromRecipe } =
+    useIngriedientStore();
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
 
-  const loadRecipes = () => {
-    setRecipes(JSON.parse(localStorage.getItem("recipes") || "[]"));
+  const handlePrepareRecipe = (recipe: IRecipe) => {
+    consumeIngredientsFromRecipe(recipe);
+    setRecipes(loadRecipes());
+    setIngredients(loadIngredients());
   };
 
   const showRecipes = () => {
@@ -17,16 +28,25 @@ export const useRecipesList = () => {
     }
 
     return recipes.map((recipe) => (
-      <RecipeElement key={recipe.id} recipe={recipe} />
+      <RecipeElement
+        key={recipe.id}
+        recipe={recipe}
+        ingredients={ingredients}
+        onPrepare={handlePrepareRecipe}
+      />
     ));
   };
 
   useEffect(() => {
-    loadRecipes();
+    setRecipes(loadRecipes());
+    setIngredients(loadIngredients());
   }, []);
 
   return {
-    values: {},
+    values: {
+      recipes,
+      ingredients,
+    },
     functions: {
       showRecipes,
     },
