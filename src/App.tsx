@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Default from "./container/Default/Default";
 import Home from "./container/Home/Home";
 import Ingredients from "./container/Ingredients/Ingredients";
@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ingredients" element={<Ingredients />} />
@@ -23,7 +23,7 @@ function App() {
         <Route path="/default" element={<Default />} />
         <Route path="*" element={<div>404 NOT FOUND</div>} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
