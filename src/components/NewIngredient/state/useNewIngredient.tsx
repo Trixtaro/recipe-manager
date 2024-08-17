@@ -9,8 +9,10 @@ export const useNewIngredient = () => {
   const { loadIngredients, saveIngredient } = useIngriedientStore();
   const [name, setName] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
+  const [unitMeasure, setUnitMeasure] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("0");
   const [price, setPrice] = useState<string>("1");
+  const [buyUnit, setBuyUnit] = useState<string>("");
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (
     e
@@ -23,12 +25,16 @@ export const useNewIngredient = () => {
         break;
       case "unit":
         setUnit(value);
+        setUnitMeasure(Units.find((u) => u.name === value)?.measure || "");
         break;
       case "quantity":
         setQuantity(value);
         break;
       case "price":
         setPrice(value);
+        break;
+      case "buy_unit":
+        setBuyUnit(value);
         break;
       default:
     }
@@ -56,12 +62,17 @@ export const useNewIngredient = () => {
       return false;
     }
 
+    const buyUnitValue = Units.find((u) => u.name === buyUnit)?.value || 1;
+    const unitValue = Units.find((u) => u.name === unit)?.value || 1;
+
+    const calculatedPrice = (parseFloat(price) * unitValue) / buyUnitValue;
+
     let newIngredient: IIngredient = {
       id: new Date().getTime(),
       name,
       quantity: parseFloat(quantity),
       unit,
-      price: parseFloat(price),
+      price: calculatedPrice,
     };
 
     saveIngredient(newIngredient);
@@ -71,6 +82,14 @@ export const useNewIngredient = () => {
 
   const showUnitsOptions = () => {
     return Units.map((unit) => (
+      <option key={unit.name} value={unit.name}>
+        {unit.spanish.listName}
+      </option>
+    ));
+  };
+
+  const showBuyUnitsOptions = () => {
+    return Units.filter((u) => u.measure === unitMeasure).map((unit) => (
       <option key={unit.name} value={unit.name}>
         {unit.spanish.listName}
       </option>
@@ -93,11 +112,13 @@ export const useNewIngredient = () => {
       price,
       quantity,
       unit,
+      buyUnit,
     },
     functions: {
       onChange,
       onSubmit,
       showUnitsOptions,
+      showPriceUnitsOptions: showBuyUnitsOptions,
     },
   };
 };

@@ -25,7 +25,7 @@ const NewIngredient: FC = () => {
         </div>
         <div className="my-2 flex flex-col">
           <label htmlFor="name" className="">
-            Unidad de medida
+            Unidad de medida en la receta
           </label>
           <select
             name="unit"
@@ -52,20 +52,35 @@ const NewIngredient: FC = () => {
             className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
           />
         </div>
-        <div className="my-2">
-          <label htmlFor="price" className="">
-            Precio
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={values.price}
-            onChange={functions.onChange}
-            min="0.05"
-            step="0.05"
-            className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
-          />
+        <div className="my-2 flex flex-row gap-1">
+          <div className="flex-1">
+            <label htmlFor="price" className="">
+              Precio
+            </label>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              value={values.price}
+              onChange={functions.onChange}
+              min="0.05"
+              step="0.05"
+              className="bg-gray-200 rounded-lg mt-1 p-1"
+            />
+          </div>
+          <div className="flex-1">
+            <label htmlFor="buy_unit">Unidad al comprar</label>
+            <select
+              name="buy_unit"
+              id="buy_unit"
+              value={values.buyUnit}
+              onChange={functions.onChange}
+              className="bg-gray-200 rounded-lg mt-1 p-1"
+            >
+              <option value="">Selecciona una unidad...</option>
+              {functions.showPriceUnitsOptions()}
+            </select>
+          </div>
         </div>
       </fieldset>
       <button className="p-2 bg-green-500 text-white rounded-lg font-semibold self-center my-2">

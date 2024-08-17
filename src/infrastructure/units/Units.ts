@@ -14,6 +14,7 @@ export const Units: IUnit[] = [
       listName: "Unidades",
       name: "unidades",
     },
+    value: 1,
   },
   {
     name: "gram",
@@ -26,18 +27,20 @@ export const Units: IUnit[] = [
       listName: "Gramo - Peso",
       name: "gramo",
     },
+    value: 1,
   },
   {
-    name: "onze",
+    name: "ounce",
     measure: MeasuresEnum.Weight,
     english: {
-      name: "onzes",
-      listName: "Onzes - Weight",
+      name: "ounces",
+      listName: "Ounces - Weight",
     },
     spanish: {
       listName: "Onzas - Peso",
       name: "onzas",
     },
+    value: 28.3495,
   },
   {
     name: "pound",
@@ -50,6 +53,20 @@ export const Units: IUnit[] = [
       listName: "Libras - Peso",
       name: "libras",
     },
+    value: 453.592,
+  },
+  {
+    name: "kilogram",
+    measure: MeasuresEnum.Weight,
+    english: {
+      listName: "Kilograms - Weight",
+      name: "kilograms",
+    },
+    spanish: {
+      listName: "Kilogramos - Peso",
+      name: "kilogramos",
+    },
+    value: 1000,
   },
   {
     name: "liter",
@@ -62,6 +79,7 @@ export const Units: IUnit[] = [
       listName: "Litros - Volumen",
       name: "litros",
     },
+    value: 1000,
   },
   {
     name: "milliliter",
@@ -74,6 +92,7 @@ export const Units: IUnit[] = [
       listName: "Mililitros - Volumen",
       name: "mm.",
     },
+    value: 1,
   },
 ];
 

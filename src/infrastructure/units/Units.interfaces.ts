@@ -11,4 +11,5 @@ export interface IUnit {
     name: string;
     listName: string;
   };
+  value: number;
 }

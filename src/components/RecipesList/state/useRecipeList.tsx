@@ -13,11 +13,13 @@ export const useRecipesList = () => {
     useIngriedientStore();
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const handlePrepareRecipe = (recipe: IRecipe) => {
     consumeIngredientsFromRecipe(recipe);
     setRecipes(loadRecipes());
     setIngredients(loadIngredients());
+    setOpenModal(true);
   };
 
   const showRecipes = () => {
@@ -46,9 +48,11 @@ export const useRecipesList = () => {
     values: {
       recipes,
       ingredients,
+      openModal,
     },
     functions: {
       showRecipes,
+      setOpenModal,
     },
   };
 };
