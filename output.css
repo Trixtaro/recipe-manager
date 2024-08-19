@@ -623,6 +623,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+.w-1\/3 {
+  width: 33.333333%;
+}
+
 .w-12 {
   width: 3rem;
 }
@@ -691,8 +695,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-evenly;
 }
 
-.gap-1 {
-  gap: 0.25rem;
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .self-center {
