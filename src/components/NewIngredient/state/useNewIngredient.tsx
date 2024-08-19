@@ -13,6 +13,7 @@ export const useNewIngredient = () => {
   const [quantity, setQuantity] = useState<string>("0");
   const [price, setPrice] = useState<string>("1");
   const [buyUnit, setBuyUnit] = useState<string>("");
+  const [buyQuantity, setBuyQuantity] = useState<string>("1");
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (
     e
@@ -36,6 +37,9 @@ export const useNewIngredient = () => {
       case "buy_unit":
         setBuyUnit(value);
         break;
+      case "buy_quantity":
+        setBuyQuantity(value);
+        break;
       default:
     }
   };
@@ -48,6 +52,11 @@ export const useNewIngredient = () => {
 
     if (unit === "") {
       alert("Debe seleccionar una medida para el ingrediente");
+      return false;
+    }
+
+    if (buyUnit === "") {
+      alert("Debe seleccionar una unidad de compra");
       return false;
     }
 
@@ -65,7 +74,9 @@ export const useNewIngredient = () => {
     const buyUnitValue = Units.find((u) => u.name === buyUnit)?.value || 1;
     const unitValue = Units.find((u) => u.name === unit)?.value || 1;
 
-    const calculatedPrice = (parseFloat(price) * unitValue) / buyUnitValue;
+    const calculatedPrice =
+      (parseFloat(price) * unitValue) /
+      (buyUnitValue * parseFloat(buyQuantity));
 
     let newIngredient: IIngredient = {
       id: new Date().getTime(),
@@ -113,12 +124,13 @@ export const useNewIngredient = () => {
       quantity,
       unit,
       buyUnit,
+      buyQuantity,
     },
     functions: {
       onChange,
       onSubmit,
       showUnitsOptions,
-      showPriceUnitsOptions: showBuyUnitsOptions,
+      showBuyUnitsOptions,
     },
   };
 };

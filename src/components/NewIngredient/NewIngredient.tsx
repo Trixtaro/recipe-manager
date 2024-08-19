@@ -52,8 +52,8 @@ const NewIngredient: FC = () => {
             className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
           />
         </div>
-        <div className="my-2 flex flex-row gap-1">
-          <div className="flex-1">
+        <div className="my-2 flex flex-row justify-between gap-2">
+          <div className="flex flex-col w-1/3">
             <label htmlFor="price" className="">
               Precio
             </label>
@@ -68,7 +68,7 @@ const NewIngredient: FC = () => {
               className="bg-gray-200 rounded-lg mt-1 p-1"
             />
           </div>
-          <div className="flex-1">
+          <div className="flex flex-col w-1/3">
             <label htmlFor="buy_unit">Unidad al comprar</label>
             <select
               name="buy_unit"
@@ -78,8 +78,21 @@ const NewIngredient: FC = () => {
               className="bg-gray-200 rounded-lg mt-1 p-1"
             >
               <option value="">Selecciona una unidad...</option>
-              {functions.showPriceUnitsOptions()}
+              {functions.showBuyUnitsOptions()}
             </select>
+          </div>
+          <div className="flex flex-col w-1/3">
+            <label htmlFor="buy_quantity">Cantidad al comprar</label>
+            <input
+              type="number"
+              id="buy_quantity"
+              name="buy_quantity"
+              value={values.buyQuantity}
+              onChange={functions.onChange}
+              min="1"
+              step="1"
+              className="bg-gray-200 rounded-lg mt-1 p-1"
+            />
           </div>
         </div>
       </fieldset>
