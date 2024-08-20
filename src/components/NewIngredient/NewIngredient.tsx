@@ -65,7 +65,7 @@ const NewIngredient: FC = () => {
               onChange={functions.onChange}
               min="0.05"
               step="0.05"
-              className="bg-gray-200 rounded-lg mt-1 p-1"
+              className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
             />
           </div>
           <div className="flex flex-col w-1/3">
@@ -75,9 +75,9 @@ const NewIngredient: FC = () => {
               id="buy_unit"
               value={values.buyUnit}
               onChange={functions.onChange}
-              className="bg-gray-200 rounded-lg mt-1 p-1"
+              className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
             >
-              <option value="">Selecciona una unidad...</option>
+              <option value="">Seleccionar...</option>
               {functions.showBuyUnitsOptions()}
             </select>
           </div>
@@ -91,7 +91,7 @@ const NewIngredient: FC = () => {
               onChange={functions.onChange}
               min="1"
               step="1"
-              className="bg-gray-200 rounded-lg mt-1 p-1"
+              className="bg-gray-200 rounded-lg mt-1 p-1 w-full"
             />
           </div>
         </div>

@@ -1,5 +1,7 @@
 import { FC } from "react";
 import ThreeDots from "../common/ThreeDots/ThreeDots";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 interface IIngredientElement {
   id: number;
@@ -13,6 +15,7 @@ interface IIngredientElement {
     currentQuantity: number
   ) => void;
   onClickOption: () => void;
+  onClickDelete: () => void;
 }
 
 const IngredientElement: FC<IIngredientElement> = ({
@@ -23,6 +26,7 @@ const IngredientElement: FC<IIngredientElement> = ({
   price,
   onClickChangeAmount,
   onClickOption,
+  onClickDelete,
 }) => (
   <div className="flex flex-row justify-between items-center text-sm">
     <div className="w-2/6 text-black mr-1 mb-1 py-1 px-2 font-semibold">
@@ -46,11 +50,16 @@ const IngredientElement: FC<IIngredientElement> = ({
     <div className="w-1/6 text-black mr-1 mb-1 py-1 px-2 font-semibold text-center">
       {unit}
     </div>
-    <div
-      onClick={onClickOption}
-      className="w-1/6 text-black mr-1 mb-1 py-1 px-2 font-semibold"
-    >
-      <ThreeDots />
+    <div className="w-1/6 flex flex-row items-center text-sm">
+      <div
+        onClick={onClickOption}
+        className=" text-black mr-1 mb-1 py-1 px-2 font-semibold"
+      >
+        <ThreeDots />
+      </div>
+      <div onClick={onClickDelete} className="cursor-pointer">
+        <FontAwesomeIcon icon={faTrashCan} />
+      </div>
     </div>
   </div>
 );

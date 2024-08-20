@@ -6,14 +6,19 @@ import IngredientElement from "../IngredientElement";
 import { useIngriedientStore } from "../../../infrastructure/hooks/useStore";
 
 export const useIngredientsList = () => {
-  const { loadIngredients, updateAmountOfIngredient, updateIngredientPrice } =
-    useIngriedientStore();
+  const {
+    loadIngredients,
+    updateAmountOfIngredient,
+    updateIngredientPrice,
+    deleteIngredient,
+  } = useIngriedientStore();
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
   const [selectedIngredient, setSelectedIngredient] =
     useState<IIngredient | null>(null);
 
   const [openModal, setOpenModal] = useState(false);
   const [modalPrice, setModalPrice] = useState(0);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
 
   const handleUpdateIngredientAmount = (
     id: number,
@@ -53,6 +58,12 @@ export const useIngredientsList = () => {
     setOpenModal(false);
   };
 
+  const handleDeleteIngredient = () => {
+    deleteIngredient(selectedIngredient!.id!);
+    setOpenModalDelete(false);
+    setIngredients(loadIngredients());
+  };
+
   const showIngredients = () => {
     if (ingredients.length === 0) {
       return (
@@ -76,6 +87,10 @@ export const useIngredientsList = () => {
           setModalPrice(ingredient.price);
           setOpenModal(true);
         }}
+        onClickDelete={() => {
+          setSelectedIngredient(ingredient);
+          setOpenModalDelete(true);
+        }}
       />
     ));
   };
@@ -88,15 +103,18 @@ export const useIngredientsList = () => {
     functions: {
       showIngredients,
       setOpenModal,
+      setOpenModalDelete,
     },
     values: {
       openModal,
+      openModalDelete,
       modalPrice,
       ingredients,
       selectedIngredient,
     },
     handlers: {
       handleUpdatePrice,
+      handleDeleteIngredient,
       handleChange,
     },
   };

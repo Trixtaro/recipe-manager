@@ -6,6 +6,10 @@ export const useIngriedientStore = () => {
     return JSON.parse(localStorage.getItem("ingredients") || "[]");
   };
 
+  const loadRecipes = (): IRecipe[] => {
+    return JSON.parse(localStorage.getItem("recipes") || "[]");
+  };
+
   const saveIngredient = (newIngriedent: IIngredient) => {
     const ingredients = loadIngredients();
     ingredients.push(newIngriedent);
@@ -77,6 +81,24 @@ export const useIngriedientStore = () => {
     return true;
   };
 
+  const deleteIngredient = (ingredientId: number) => {
+    const ingredients = loadIngredients();
+    const recipes = loadRecipes();
+
+    const updatedIngredients = ingredients.filter(
+      (ing) => ing.id !== ingredientId
+    );
+
+    const updatedRecipes = recipes.filter((recp) => {
+      return !recp.ingredients.find(
+        (ing) => ing.ingredient.id === ingredientId
+      );
+    });
+
+    localStorage.setItem("ingredients", JSON.stringify(updatedIngredients));
+    localStorage.setItem("recipes", JSON.stringify(updatedRecipes));
+  };
+
   const consumeIngredientsFromRecipe = (recipe: IRecipe) => {
     const ingredients = loadIngredients();
 
@@ -102,6 +124,7 @@ export const useIngriedientStore = () => {
   return {
     loadIngredients,
     saveIngredient,
+    deleteIngredient,
     updateAmountOfIngredient,
     updateIngredientPrice,
     consumeIngredientsFromRecipe,

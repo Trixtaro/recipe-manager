@@ -70,6 +70,24 @@ const IngredientsList: FC = () => {
           </button>
         </div>
       </Modal>
+      <Modal
+        isOpen={values.openModalDelete}
+        onClose={() => functions.setOpenModalDelete(false)}
+      >
+        <div className="py-3 px-2 flex flex-col">
+          <h2 className="font-bold text-center">Eliminar ingrediente</h2>
+          <p>¿Está seguro que desea eliminar el ingrediente?</p>
+          <p>Tambien se borraran las recetas relacionadas.</p>
+          <div className="flex flex-row justify-center items-center">
+            <button
+              onClick={handlers.handleDeleteIngredient}
+              className="bg-red-500 hover:bg-red-400 text-white w-/12 self-center p-2 rounded-md font-bold"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
